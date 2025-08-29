@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import MainLayout from "../layout/MainLayout";
 import { AiOutlineCloudUpload, AiOutlineUpload } from "react-icons/ai";
 import toast from "react-hot-toast";
-import axios from "axios";
 import { trpc } from "../utils/trpc";
 import { useRouter } from "next/router";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
@@ -65,6 +64,7 @@ const Upload = () => {
     setVideoPreview(null);
   };
 
+  // Upload using SAS flow: request SAS, PUT file, then save blobUrl in DB
   const handleUploadVideo = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -78,28 +78,34 @@ const Upload = () => {
     setLoading(true);
 
     try {
-      const url = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_URL as string;
-
-      const formData = new FormData();
-      formData.append("file", videoFile);
-      formData.append(
-        "upload_preset",
-        process.env.NEXT_PUBLIC_UPLOAD_KEY as string
+      // request SAS from our API
+      const filename = `${Date.now()}-${videoFile.name.replace(/\s+/g, "-")}`;
+      const sasRes = await fetch(
+        `/api/upload/sas?filename=${encodeURIComponent(filename)}`
       );
 
-      const videoUrl = await axios.post(url, formData, {
-        onUploadProgress: (p) => {
-          const { loaded, total } = p;
-          const percent = Math.floor((loaded * 100) / (total as number));
-          toast.loading(`Upload ${percent}%....`, { id: toastId });
+      if (!sasRes.ok) throw new Error("Failed to get SAS");
+
+      const { uploadUrl, blobUrl } = await sasRes.json();
+
+      // upload the file using PUT
+      const putRes = await fetch(uploadUrl, {
+        method: "PUT",
+        body: videoFile,
+        headers: {
+          "x-ms-blob-type": "BlockBlob",
+          "Content-Type": videoFile.type || "application/octet-stream",
         },
       });
 
+      if (!putRes.ok) throw new Error("Upload failed");
+
+      // persist metadata to database
       const res = await mutateAsync({
         title,
         videoWidth,
         videoHeight,
-        videoUrl: videoUrl.data?.url,
+        videoUrl: blobUrl,
       });
 
       setLoading(false);
