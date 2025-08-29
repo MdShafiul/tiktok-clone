@@ -1,6 +1,6 @@
-<h1 align="center" style="font-size: 60px">Tiktok Clone</h1>
+<h1 align="center" style="font-size: 60px">ReelRush Clone</h1>
 
-<p align="center"><strong>A fullstack Tiktok clone with NextJS, Typescript, Prisma, TaiwindCSS, MongoDB, trpc</strong></p>
+<p align="center"><strong>A fullstack ReelRush clone with NextJS, Typescript, Prisma, TaiwindCSS, MongoDB, trpc</strong></p>
 
 <p align="center">
   <img alt="Stars" src="https://badgen.net/github/stars/an678-mhg/tiktok-clone">
