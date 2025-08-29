@@ -120,9 +120,9 @@ const Upload = () => {
   return (
     <MainLayout>
       <Meta
-        title="Upload new video | Tiktok"
-        description="Upload page from tiktok"
-        image="https://res.cloudinary.com/dhz1uowbg/image/upload/v1670595740/uioexfuepgqqovjzfskk.png"
+        title="Upload new video | ReelRush"
+        description="Upload page from ReelRush"
+        image="https://res.cloudinary.com/alam313/image/upload/v1756429642/ReelRushLogo_j0oicz.png"
       />
       <div className="w-full rounded-md bg-[#333] p-6 md:mt-5 md:h-[calc(100vh-100px)]">
         <div>

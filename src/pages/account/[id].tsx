@@ -18,8 +18,8 @@ const Profile: NextPage<ProfileProps> = ({ profile, isFollow }) => {
   return (
     <MainLayout>
       <Meta
-        title={`${profile?.name} on Tiktok`}
-        description={`${profile?.name} on Tiktok`}
+        title={`${profile?.name} on ReelRush`}
+        description={`${profile?.name} on ReelRush`}
         image={profile?.image}
       />
       <div className="mt-5 w-full">

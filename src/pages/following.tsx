@@ -18,9 +18,9 @@ const Following: NextPage = () => {
   return (
     <MainLayout>
       <Meta
-        title="Following | Tiktok"
-        description="Following page from tiktok"
-        image="https://res.cloudinary.com/dhz1uowbg/image/upload/v1670595740/uioexfuepgqqovjzfskk.png"
+        title="Following | ReelRush"
+        description="Following page from ReelRush"
+        image="https://res.cloudinary.com/alam313/image/upload/v1756429642/ReelRushLogo_j0oicz.png"
       />
       <Sidebar />
       <div className="ml-[48px] flex-1 lg:ml-[348px] lg:mt-5">

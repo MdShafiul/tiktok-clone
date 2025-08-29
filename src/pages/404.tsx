@@ -8,7 +8,7 @@ const PageNotFound = () => {
       <Meta
         title="Page not found | 404"
         description="Page not found | 404"
-        image="https://res.cloudinary.com/dhz1uowbg/image/upload/v1670595740/uioexfuepgqqovjzfskk.png"
+        image="https://res.cloudinary.com/alam313/image/upload/v1756429642/ReelRushLogo_j0oicz.png"
       />
       <Error />
     </div>

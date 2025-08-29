@@ -21,8 +21,8 @@ const VideoDetail: NextPage<VideoDetailProps> = ({ video, host }) => {
       <Meta
         title={
           video?.title
-            ? `${video?.title} | ${video?.user?.name} on Tiktok`
-            : `${video?.user?.name} on Tiktok`
+            ? `${video?.title} | ${video?.user?.name} on ReelRush`
+            : `${video?.user?.name} on ReelRush`
         }
         description={video?.title}
         image={poster}

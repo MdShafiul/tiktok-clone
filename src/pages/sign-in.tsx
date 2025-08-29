@@ -9,6 +9,7 @@ import { unstable_getServerSession as getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import Meta from "../components/Meta";
+import ManualLogin from "../components/ManualLogin";
 
 const signInMethods = [
   {
@@ -27,9 +28,9 @@ const SignIn = () => {
   return (
     <div className="h-screen text-white">
       <Meta
-        title="SignIn | Tiktok"
-        description="SignIn page from tiktok"
-        image="https://res.cloudinary.com/dhz1uowbg/image/upload/v1670595740/uioexfuepgqqovjzfskk.png"
+        title="SignIn | ReelRush"
+        description="SignIn page from ReelRush"
+        image="https://res.cloudinary.com/alam313/image/upload/v1756429642/ReelRushLogo_j0oicz.png"
       />
       <div className="flex items-center justify-between p-4">
         <Link href="/">
@@ -44,11 +45,13 @@ const SignIn = () => {
 
       <div>
         <div className="mx-auto w-[375px] max-w-[calc(100%-32px)] text-center">
-          <h4 className="my-4 text-[32px] font-bold">Log in to TikTok</h4>
+          <h4 className="my-4 text-[32px] font-bold">Log in to ReelRush</h4>
           <p className="mt-3 mb-[32px] text-[15px] font-normal text-[rgba(255,255,255,0.75)]">
             Manage your account, check notifications, comment on videos, and
             more.
           </p>
+
+          <div></div>
 
           <div>
             {signInMethods.map((item) => (
@@ -63,6 +66,10 @@ const SignIn = () => {
                 <span className="text-[15px]">{item.content}</span>
               </button>
             ))}
+          </div>
+
+          <div className="my-4">
+            <ManualLogin />
           </div>
         </div>
       </div>

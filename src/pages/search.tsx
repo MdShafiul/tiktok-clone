@@ -19,9 +19,9 @@ const Search: NextPage<SearchProps> = ({ videos, keyword, accounts }) => {
   return (
     <MainLayout>
       <Meta
-        title={`Search results to "${keyword}" | Tiktok`}
-        description="Search page from tiktok"
-        image="https://res.cloudinary.com/dhz1uowbg/image/upload/v1670595740/uioexfuepgqqovjzfskk.png"
+        title={`Search results to "${keyword}" | ReelRush`}
+        description="Search page from ReelRush"
+        image="https://res.cloudinary.com/alam313/image/upload/v1756429642/ReelRushLogo_j0oicz.png"
       />
       <div className="w-full px-4 pb-5">
         <ul className="mt-1 flex w-full items-center justify-center border-b border-[#2f2f2f]">
