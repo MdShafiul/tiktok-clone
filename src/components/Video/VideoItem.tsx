@@ -106,7 +106,7 @@ const VideoItem: React.FC<VideoItemProps> = ({ video, refetch }) => {
           </p>
           <p className="mt-2 flex items-center text-sm font-semibold">
             <FcMusic className="mr-2" />{" "}
-            <span className="line-clamp-1">Nhạc nền - {video?.user?.name}</span>
+            <span className="line-clamp-1">Music - {video?.user?.name}</span>
           </p>
 
           <VideoPlayer

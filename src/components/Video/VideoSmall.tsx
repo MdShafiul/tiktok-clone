@@ -2,10 +2,27 @@ import Link from "next/link";
 import React from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
+function getThumbnail(videoUrl?: string) {
+  if (!videoUrl) return "";
+  try {
+    const u = new URL(videoUrl);
+    const pathname = u.pathname; // preserves path without query
+    const dot = pathname.lastIndexOf(".");
+    const thumbPath = dot !== -1 ? pathname.slice(0, dot) + ".jpg" : pathname + ".jpg";
+    return `${u.origin}${thumbPath}`;
+  } catch {
+    // fallback for non-absolute urls or CDN signed URLs
+    const noQuery = String(videoUrl || "").split("?")[0];
+    const dot = noQuery?.lastIndexOf(".");
+    return dot !== -1 ? noQuery?.slice(0, dot) + ".jpg" : noQuery + ".jpg";
+  }
+}
+
 interface VideoSmallProps {
   video: {
     id: string;
     videoUrl: string;
+    thumnail?: string;
     title: string;
   };
 }
@@ -17,7 +34,8 @@ const VideoSmall: React.FC<VideoSmallProps> = ({ video }) => {
         <div className="aspect-[9/16] overflow-hidden">
           <LazyLoadImage
             className="aspect-[9/16]"
-            src={video?.videoUrl?.split(".mp4")[0] + ".jpg"}
+            src={video?.thumnail ?? getThumbnail(video?.videoUrl)}
+            alt={video?.title || "video thumbnail"}
             effect="opacity"
           />
         </div>

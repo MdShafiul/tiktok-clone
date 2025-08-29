@@ -44,13 +44,73 @@ const Upload = () => {
     const video = document.createElement("video");
     video.setAttribute("src", preview);
     video.setAttribute("type", "video/mp4");
-    video.addEventListener("loadedmetadata", (e) => {
+    video.addEventListener("loadedmetadata", () => {
       setVideoWidth(video?.videoWidth);
       setVideoHeight(video?.videoHeight);
 
       console.log("width", video?.videoWidth);
       console.log("height", video?.videoHeight);
     });
+  };
+
+  // capture a thumbnail (first frame) from the file and return Blob
+  const captureThumbnail = (file: File): Promise<Blob> => {
+    return new Promise((resolve, reject) => {
+      const url = URL.createObjectURL(file);
+      const vid = document.createElement("video");
+      vid.src = url;
+      vid.muted = true;
+      vid.playsInline = true;
+      vid.currentTime = 0.1;
+
+      const onError = (e: unknown) => {
+        URL.revokeObjectURL(url);
+        reject(e instanceof Error ? e : new Error("Failed to capture thumbnail"));
+      };
+
+      vid.addEventListener("error", onError);
+      vid.addEventListener("loadeddata", () => {
+        try {
+          const canvas = document.createElement("canvas");
+          canvas.width = vid.videoWidth || 320;
+          canvas.height = vid.videoHeight || 240;
+          const ctx = canvas.getContext("2d");
+          if (!ctx) throw new Error("Canvas not supported");
+          ctx.drawImage(vid, 0, 0, canvas.width, canvas.height);
+          canvas.toBlob(
+            (blob) => {
+              URL.revokeObjectURL(url);
+              if (blob) resolve(blob);
+              else reject(new Error("Failed to convert thumbnail to blob"));
+            },
+            "image/jpeg",
+            0.8
+          );
+        } catch (err) {
+          onError(err);
+        }
+      });
+    });
+  };
+
+  // helper to upload a Blob/File to Azure using SAS url returned from our API
+  const uploadWithSas = async (fileOrBlob: Blob | File, filename: string) => {
+    const sasRes = await fetch(
+      `/api/upload/sas?filename=${encodeURIComponent(filename)}`
+    );
+    if (!sasRes.ok) throw new Error("Failed to get SAS");
+    const { uploadUrl, blobUrl } = await sasRes.json();
+
+    const putRes = await fetch(uploadUrl, {
+      method: "PUT",
+      body: fileOrBlob,
+      headers: {
+        "x-ms-blob-type": "BlockBlob",
+        "Content-Type": (fileOrBlob as File).type || "application/octet-stream",
+      },
+    });
+    if (!putRes.ok) throw new Error("Upload failed");
+    return blobUrl;
   };
 
   useEffect(() => {
@@ -78,6 +138,14 @@ const Upload = () => {
     setLoading(true);
 
     try {
+      // capture thumbnail blob and upload it first
+      const thumbBlob = await captureThumbnail(videoFile);
+      const thumbFilename = `${Date.now()}-thumb-${videoFile.name.replace(
+        /\s+/g,
+        "-"
+      )}.jpg`;
+      const thumbnailUrl = await uploadWithSas(thumbBlob, thumbFilename);
+
       // request SAS from our API
       const filename = `${Date.now()}-${videoFile.name.replace(/\s+/g, "-")}`;
       const sasRes = await fetch(
@@ -106,6 +174,7 @@ const Upload = () => {
         videoWidth,
         videoHeight,
         videoUrl: blobUrl,
+        thumbnailUrl,
       });
 
       setLoading(false);

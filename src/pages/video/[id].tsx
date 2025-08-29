@@ -14,7 +14,7 @@ interface VideoDetailProps {
 }
 
 const VideoDetail: NextPage<VideoDetailProps> = ({ video, host }) => {
-  const poster = video?.videoUrl?.split(".mp4")[0] + ".jpg";
+  const poster = video?.thumnail ?? video?.videoUrl?.split(".mp4")[0] + ".jpg";
 
   return (
     <div className="flex h-screen flex-col text-white lg:flex-row">

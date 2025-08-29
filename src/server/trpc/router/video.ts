@@ -10,6 +10,7 @@ export const videoRouter = router({
         videoWidth: z.number(),
         videoHeight: z.number(),
         videoUrl: z.string(),
+        thumbnailUrl: z.string().optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -19,6 +20,7 @@ export const videoRouter = router({
           title: input.title,
           width: input.videoWidth,
           videoUrl: input.videoUrl,
+          thumnail: input.thumbnailUrl,
           userId: ctx.session.user.id,
         },
       });

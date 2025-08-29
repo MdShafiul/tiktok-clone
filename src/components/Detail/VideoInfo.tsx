@@ -146,7 +146,7 @@ const VideoInfo: React.FC<VideoInfoProps> = ({ video, host }) => {
           </p>
           <p className="mt-2 flex items-center text-sm font-semibold">
             <FcMusic className="mr-2" />{" "}
-            <span className="line-clamp-1">Nhạc nền - {video?.user?.name}</span>
+            <span className="line-clamp-1">Music - {video?.user?.name}</span>
           </p>
         </div>
         <div className="mt-5 flex items-center justify-between">

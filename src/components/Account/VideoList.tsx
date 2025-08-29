@@ -9,22 +9,24 @@ interface VideoListProps {
 const VideoList: React.FC<VideoListProps> = ({ profile }) => {
   const [type, setType] = useState<"video" | "like">("video");
 
-  const videos: { id: string; videoUrl: string; title: string }[] =
+  const videos: { id: string; videoUrl: string; title: string; thumnail?: string }[] =
     useMemo(() => {
       if (type === "video") {
         return profile?.video?.map((item) => ({
           title: item.title,
           videoUrl: item.videoUrl,
           id: item.id,
+          thumnail: (item as any).thumnail,
         }));
       } else {
         return profile?.likes?.map((item) => ({
           title: item.video?.title,
           videoUrl: item.video?.videoUrl,
           id: item.video?.id,
+          thumnail: (item.video as any)?.thumnail,
         }));
       }
-    }, [type]);
+    }, [type, profile]);
 
   return (
     <>
