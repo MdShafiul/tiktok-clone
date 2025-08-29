@@ -3,9 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "next build",
+    "build": "prisma generate && next build",
     "dev": "next dev",
-    "postinstall": "prisma generate",
     "lint": "next lint",
     "start": "next start -p 8080 -H 0.0.0.0"
   },
@@ -24,6 +23,7 @@
     "next": "13.0.2",
     "next-auth": "^4.15.1",
     "nextjs-progressbar": "^0.0.16",
+    "prisma": "^4.10.1",
     "react": "18.2.0",
     "react-cssfx-loading": "^2.1.0",
     "react-dom": "18.2.0",
@@ -48,7 +48,6 @@
     "postcss": "^8.4.14",
     "prettier": "^2.7.1",
     "prettier-plugin-tailwindcss": "^0.1.13",
-    "prisma": "^4.10.1",
     "tailwindcss": "^3.2.0",
     "typescript": "^4.8.4"
   },
