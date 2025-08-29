@@ -1,4 +1,4 @@
-<h1 align="center" style="font-size: 60px">ReelRush Clone</h1>
+<h1 align="center" style="font-size: 60px">ReelRush</h1>
 
 <p align="center"><strong>A fullstack ReelRush clone with NextJS, Typescript, Prisma, TaiwindCSS, MongoDB, trpc</strong></p>
 
